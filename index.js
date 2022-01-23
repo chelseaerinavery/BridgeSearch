@@ -1,8 +1,5 @@
 require("dotenv").config();
 
-// config.json variables are commented out, .env variables are used here
-// const { prefix, token } = require("./config.json");
-
 const { Client, Intents, MessageEmbed } = require("discord.js");
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
