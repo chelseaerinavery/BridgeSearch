@@ -1,5 +1,4 @@
 require("dotenv").config();
-
 const { Client, Intents, MessageEmbed } = require("discord.js");
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
@@ -70,7 +69,7 @@ client.on("messageCreate", async (message) => {
     message.channel.send({ embeds: [msgEmbed] });
     return;
   } else if (
-    message.content.toLowerCase().startsWith(`${process.env.PREFIX}culture`)
+    message.content.toLowerCase().startsWith(`${process.env.PREFIX}Culture`)
   ) {
     const msgEmbed = new MessageEmbed()
       .setColor("YELLOW")
