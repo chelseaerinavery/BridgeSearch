@@ -1,6 +1,10 @@
 {
   "name": "bridgesearch",
   "version": "1.0.0",
+  "engines": {
+    "node": "^16.13.2",
+    "npm": "^8.1.2"
+  },
   "description": "Bridging to Communities",
   "main": "index.js",
   "scripts": {
@@ -14,4 +18,6 @@
     "dotenv": "^14.2.0",
     "node-fetch": "^2.6.7"
   }
+
+
 }
