@@ -1,11 +1,15 @@
-const { prefix, token } = require("./config.json");
+require("dotenv").config();
+
+// config.json variables are commented out, .env variables are used here
+// const { prefix, token } = require("./config.json");
+
 const { Client, Intents, MessageEmbed } = require("discord.js");
 const client = new Client({
   intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
 });
 const fetch = require("node-fetch");
 
-client.login(token);
+client.login(process.env.TOKEN);
 
 client.once("ready", () => {
   console.log("Ready!");
@@ -20,17 +24,13 @@ client.once("disconnect", () => {
 client.on("messageCreate", async (message) => {
   if (message.author.bot) return;
 
-  if (!message.content.startsWith(prefix)) return;
-
-  if (message.content.startsWith(`${prefix}name`)) {
-    message.reply(`Your name is ${message.author.username}`); // sends reply in channel to author
-    return;
-  } else if (message.content.startsWith(`${prefix}Greeting`)) {
+  if (!message.content.startsWith(process.env.PREFIX)) return;
+  else if (message.content.startsWith(`${process.env.PREFIX}Greeting`)) {
     message.channel.send(
-      "Hello! I'm here to help build a bridge between your Discord fam and your IRL fam. Try typing `&Health`, `&Culture`, or `&Volunteer` to find a bridge to LGBTQAI+ communities around the world. Soon we'll be able to find bridges near you. Type `&Secret` to chat in private. Communities that don't just tolerate but celebrate and respect should be easily available to all. BridgeSearch to find your way."
+      "Hello! I'm here to help build a bridge between your Discord fam and your IRL fam. Try typing `&Health`, `&Culture`, `&Volunteer`, or &Games to find a randomized bridge to LGBTQAI+ communities around the world. Soon we'll be able to find bridges near you. Type `&Secret` to chat in private. Communities that don't just tolerate but celebrate and respect should be easily available to all. BridgeSearch to find your way."
     ); // sends general message to channel
     return;
-  } else if (message.content.startsWith(`${prefix}Secret`)) {
+  } else if (message.content.startsWith(`${process.env.PREFIX}Secret`)) {
     const msgEmbed = new MessageEmbed()
       .setColor("LUMINOUS_VIVID_PINK")
       .setTitle("Bridge Out in Private")
@@ -38,11 +38,11 @@ client.on("messageCreate", async (message) => {
         "https://media.istockphoto.com/photos/poyab-bridge-under-construction-freiburg-switzerland-picture-id1133439347?k=20&m=1133439347&s=612x612&w=0&h=4BLfNRzNhVFNgqg6ArZTmIFod49UYy9T68EOOYPfmMk="
       )
       .setDescription(
-        "Soon we will be able to bridge out and chat privately. Please excuse us while we polish off this feature for smooth a commute."
+        "Soon we will be able to bridge out and chat privately. Please excuse us while we polish off this feature for a smooth commute."
       );
     message.author.send({ embeds: [msgEmbed] }); // sends direct message to author
     return;
-  } else if (message.content.startsWith(`${prefix}Health`)) {
+  } else if (message.content.startsWith(`${process.env.PREFIX}Health`)) {
     const msgEmbed = new MessageEmbed()
       .setColor("AQUA")
       .setTitle(`Health Bridge 🌉 for ${message.author.username}`)
@@ -57,7 +57,7 @@ client.on("messageCreate", async (message) => {
       );
     message.channel.send({ embeds: [msgEmbed] });
     return; // sends embedded message to channel
-  } else if (message.content.startsWith(`${prefix}Volunteer`)) {
+  } else if (message.content.startsWith(`${process.env.PREFIX}Volunteer`)) {
     const msgEmbed = new MessageEmbed()
       .setColor("NAVY")
       .setTitle(`Volunteer Bridge 🌉 for ${message.author.username}`)
@@ -72,7 +72,9 @@ client.on("messageCreate", async (message) => {
       );
     message.channel.send({ embeds: [msgEmbed] });
     return;
-  } else if (message.content.startsWith(`${prefix}Culture`)) {
+  } else if (
+    message.content.toLowerCase().startsWith(`${process.env.PREFIX}culture`)
+  ) {
     const msgEmbed = new MessageEmbed()
       .setColor("YELLOW")
       .setTitle(`Culture Bridge 🌉 for ${message.author.username}`)
@@ -85,7 +87,7 @@ client.on("messageCreate", async (message) => {
       );
     message.channel.send({ embeds: [msgEmbed] });
     return;
-  } else if (message.content.startsWith(`${prefix}Meetup`)) {
+  } else if (message.content.startsWith(`${process.env.PREFIX}Meetup`)) {
     const msgEmbed = new MessageEmbed()
       .setColor("ORANGE")
       .setTitle(`IRL Bridge 🌉 for ${message.author.username}`)
@@ -98,14 +100,27 @@ client.on("messageCreate", async (message) => {
       );
     message.channel.send({ embeds: [msgEmbed] });
     return;
-  } else if (message.content.startsWith(`${prefix}`)) {
+  } else if (message.content.startsWith(`${process.env.PREFIX}Game`)) {
+    const msgEmbed = new MessageEmbed()
+      .setColor("DARK_GREEN")
+      .setTitle(`Literally Building a Bridge 🌉 for ${message.author.username}`)
+      .setURL("https://www.crazygames.com/game/construct-a-bridge")
+      .setDescription(
+        "Construct a Bridge is a cool physics-based game in which you can put your engineering brain to the test. In each level, you will be required to build a bridge capable of withstanding the weight of a heavy truck passing across it. How you build your bridge is entirely up to you."
+      )
+      .setImage(
+        "https://cdn-factory.marketjs.com/en/construct-a-bridge/media/graphics/game/background/cover.png"
+      );
+    message.channel.send({ embeds: [msgEmbed] });
+    return;
+  } else if (message.content.startsWith(`${process.env.PREFIX}`)) {
     let url = `https://g.tenor.com/v1/search?q=programming&key=XXTG3107U1I2&limit=10`;
     let response = await (await fetch(url)).json();
     const index = Math.floor(Math.random() * response.results.length);
     message.reply(
       response.results[index].url +
         "\n" +
-        " You need to enter a valid command! Try typing `&Health`, `&Culture`, `&Meetup`, or `&Volunteer`. Type `&Secret` if you'd like to chat in private. "
+        "Bridge Down 😱 ! You need to enter a valid command! Try typing `&Health`, `&Culture`, `&Meetup`, `&Volunteer`, or `&Game`. Type `&Secret` if you'd like to chat in private. "
     ); // if invalid command, send this error message and random gif to the channel
   }
 });

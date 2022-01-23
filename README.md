@@ -27,6 +27,7 @@ node index
 &Culture
 &Meetup
 &Secret
+&Game
 
 # Developers:
 
